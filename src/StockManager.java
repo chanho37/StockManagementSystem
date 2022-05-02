@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import stock.BusanStock;
+import stock.ChangwonStock;
 import stock.Stock;
+import stock.Stockkind;
 
 public class StockManager {
 	ArrayList<Stock> stocks = new ArrayList<Stock>();
@@ -15,18 +17,25 @@ public class StockManager {
 		int kind = 0;
 		Stock stock;
 		while(kind != 1 && kind != 2) {
-			System.out.print("1 for Masan");
-			System.out.print("2 for Busan");
-			System.out.print("Select num for Stock area between 1 and 2: ");
+			System.out.println("1 for Masan");
+			System.out.println("2 for Busan");
+			System.out.println("3 for Changwon");
+			System.out.print("Select num 1, 2, or 3 for Stock area: ");
 			kind = input.nextInt();
 			if(kind == 1){
-				stock = new Stock();
+				stock = new Stock(Stockkind.Masan);
 				stock.getUserInput(input);
 				stocks.add(stock);
 				break;
 			}
 			else if(kind == 2) {
-				stock = new BusanStock();
+				stock = new BusanStock(Stockkind.Busan);
+				stock.getUserInput(input);
+				stocks.add(stock);
+				break;
+			}
+			else if(kind == 3) {
+				stock = new ChangwonStock(Stockkind.Changwon);
 				stock.getUserInput(input);
 				stocks.add(stock);
 				break;

@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class BusanStock extends Stock {
 	
+	public BusanStock(Stockkind kind) {
+		super(kind);
+	}
+	
 	public void getUserInput(Scanner input) {
 		System.out.println("Write a Stock Code");
 		int name = input.nextInt();

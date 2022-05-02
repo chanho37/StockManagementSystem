@@ -14,7 +14,7 @@ public class MenuManager {
 		System.out.println("      4. View Stocks ");
 		System.out.println("      5. Exit ");
 		System.out.println("(011 : Bread 012 : snack 013 : drink)");
-		System.out.print("Select one number between 1 - 5 : ");
+		System.out.print(" Select one number between 1 - 5 : ");
 	    number = input.nextInt();
 		
 		if( number == 1) {
