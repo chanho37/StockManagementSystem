@@ -1,47 +1,62 @@
+
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import stock.BusanStock;
 import stock.ChangwonStock;
+import stock.MasanStock;
 import stock.Stock;
+import stock.StockInput;
 import stock.Stockkind;
 
 public class StockManager {
-	ArrayList<Stock> stocks = new ArrayList<Stock>();
+	ArrayList<StockInput> stocks = new ArrayList<StockInput>();
 	Scanner input;
 	StockManager(Scanner input) {
 		this.input = input;
 	}
 	
 	public void addstock() {
+		
 		int kind = 0;
-		Stock stock;
-		while(kind != 1 && kind != 2) {
+		StockInput stockInput;
+		while(kind < 1 || kind > 2) {
+			try {
+			System.out.println("go into add stocks in while");
 			System.out.println("1 for Masan");
 			System.out.println("2 for Busan");
 			System.out.println("3 for Changwon");
 			System.out.print("Select num 1, 2, or 3 for Stock area: ");
 			kind = input.nextInt();
 			if(kind == 1){
-				stock = new Stock(Stockkind.Masan);
-				stock.getUserInput(input);
-				stocks.add(stock);
+				stockInput = new MasanStock(Stockkind.Masan);
+				stockInput.getUserInput(input);
+				stocks.add(stockInput);
 				break;
 			}
 			else if(kind == 2) {
-				stock = new BusanStock(Stockkind.Busan);
-				stock.getUserInput(input);
-				stocks.add(stock);
+				stockInput = new BusanStock(Stockkind.Busan);
+				stockInput.getUserInput(input);
+				stocks.add(stockInput);
 				break;
 			}
 			else if(kind == 3) {
-				stock = new ChangwonStock(Stockkind.Changwon);
-				stock.getUserInput(input);
-				stocks.add(stock);
+				stockInput = new ChangwonStock(Stockkind.Changwon);
+				stockInput.getUserInput(input);
+				stocks.add(stockInput);
 				break;
 			}
 			else {
 				System.out.print("Select num for Stock area between 1 and 2: ");
+			}
+			}
+			catch(InputMismatchException e) {
+				System.out.println("Please put an integer between 1 and 3!");
+				if(input.hasNext()) {
+					input.next();
+				}
+				kind = -1;
 			}
 		}
 	}
@@ -49,6 +64,11 @@ public class StockManager {
 	public void delectstock() {
 		System.out.println("Write a Stock Code");
 		int name = input.nextInt();
+		int index = findIndex(name);
+		removerfromStocks(index, name);
+	}
+	
+	public int findIndex(int name) {
 		int index = -1;
 		for(int i = 0; i<stocks.size();i++) {
 			if(stocks.get(i).getName() == name) {
@@ -56,15 +76,19 @@ public class StockManager {
 				break;
 			}	
 		}
-		
+		return index;
+	}
+	
+	public int removerfromStocks(int index, int name) {
 		if(index >= 0) {
 			stocks.remove(index);
 			System.out.println("the stock " + name + "is deleted");
+			return 1;
 		}
 		
 		else {
 			System.out.println("the student has not been registered");
-			return;
+			return -1;
 		}
 	}
 
@@ -72,45 +96,26 @@ public class StockManager {
 		System.out.println("Write a Stock Code");
 		int name = input.nextInt();
 		for(int i = 0; i<stocks.size();i++) {
-			Stock stock = stocks.get(i);
+			StockInput stock = stocks.get(i);
 			if(stock.getName() == name) {
 				int number = -1;
 				while( number != 5 ) {
-					System.out.println(" $$ Stock Info Edit System $$");
-					System.out.println("      1. Edit name ");
-					System.out.println("      2. Edit stock number");
-					System.out.println("      3. Edit price ");
-					System.out.println("      4. Edit End date ");
-					System.out.println("      5. Exit ");
-					System.out.println("(011 : Bread 012 : snack 013 : drink)");
-					System.out.print("Select one number between 1 - 5 : ");
+					showEditMenu();
 					number = input.nextInt();
-
-					if( number == 1) {
-						System.out.print("Stock name : ");
-						name = input.nextInt();
-						stock.setName(name);
-					}
-					
-					else if( number == 2) {
-						System.out.print("Stock number : ");
-						int stnumber = input.nextInt();
-						stock.setStnumber(stnumber);
-					}
-					
-					else if( number == 3 ) {
-						System.out.print("Price : ");
-						int price = input.nextInt();
-						stock.setPrice(price);
-					}
-					
-					else if(number == 4 ) {
-						System.out.print("End date : ");
-						int enddate = input.nextInt();
-						stock.setEnddate(enddate);
-					}
-					
-					else {
+					switch(number) {
+					case 1:
+						stock.setStockName(input);
+						break;
+					case 2:
+						stock.setStockNumber(input);
+						break;
+					case 3:
+						stock.setStockPrice(input);
+						break;
+					case 4:
+						stock.setStockEnddate(input);
+						break;
+					default:
 						continue;
 					}
 				}
@@ -127,6 +132,19 @@ public class StockManager {
 		for(int i = 0; i<stocks.size();i++) {
 			stocks.get(i).printInfo();
 		}
+	}
+	
+	
+	
+	public void showEditMenu() {
+		System.out.println(" $$ Stock Info Edit System $$");
+		System.out.println("      1. Edit name ");
+		System.out.println("      2. Edit stock number");
+		System.out.println("      3. Edit price ");
+		System.out.println("      4. Edit End date ");
+		System.out.println("      5. Exit ");
+		System.out.println("(011 : Bread 012 : snack 013 : drink)");
+		System.out.print("Select one number between 1 - 5 : ");
 	}
 
 }

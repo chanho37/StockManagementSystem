@@ -2,11 +2,13 @@ package stock;
 
 import java.util.Scanner;
 
-public class Stock {
+import exception.PriceFormatException;
+
+public abstract class Stock implements StockInput {
 	protected Stockkind kind = Stockkind.Masan;
 	protected int name;
 	protected int stnumber;
-	protected int price;
+	protected String price;
 	protected int enddate;
 
 	public Stock() {
@@ -17,18 +19,18 @@ public class Stock {
 	}
 	
 	public Stock(int name, int stnumber) {
-		this.name = name;
+		this.name = name; 
 		this.stnumber = stnumber;
 	}
 	
-	public Stock(int name, int stnumber, int price, int enddate) {
+	public Stock(int name, int stnumber, String price, int enddate) {
 		this.name = name;
 		this.stnumber = stnumber;
 		this.price = price;
 		this.enddate = enddate;
 	}
 	
-	public Stock(Stockkind kind, int name, int stnumber, int price, int enddate) {
+	public Stock(Stockkind kind, int name, int stnumber, String price, int enddate) {
 		this.kind = kind;
 		this.name = name;
 		this.stnumber = stnumber;
@@ -60,11 +62,15 @@ public class Stock {
 		this.stnumber = stnumber;
 	}
 
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(String price) throws PriceFormatException {	
+		if (!price.contains("won") && !price.equals("")) 
+		{
+			throw new PriceFormatException();
+		}
 		this.price = price;
 	}
 
@@ -76,7 +82,40 @@ public class Stock {
 		this.enddate = enddate;
 	}
 	
-	public void printInfo() {
+	public abstract void printInfo();
+	
+	public void setStockName(Scanner input) {
+		System.out.print("Stock name : ");
+		int name = input.nextInt();
+		this.setName(name);
+	}
+	
+	public void setStockNumber(Scanner input) {
+		System.out.print("Stock number : ");
+		int stnumber = input.nextInt();
+		this.setStnumber(stnumber);
+	}
+	
+	public void setStockPrice(Scanner input) {
+		String price = "";
+		while(!price.contains("won")) {
+			System.out.print("Price : ");
+			price = input.next();
+			try {
+				this.setPrice(price);
+			} catch (PriceFormatException e) {
+				System.out.println("Incorrect Price Format. Please enter a unit");
+			}
+		}
+	}
+
+	public void setStockEnddate(Scanner input) {
+		System.out.print("End date : ");
+		int enddate = input.nextInt();
+		this.setEnddate(enddate);
+	}
+	
+	public String getkindString() {
 		String skind = "none";
 		switch(this.kind) {
 		case Masan:
@@ -93,25 +132,7 @@ public class Stock {
 			break;
 		default:
 		}
-		System.out.println("kind: " + skind + " Name : " + name + " Stocknumber : " + stnumber + " Price : " + price + " End date : " + enddate);
-	}
-	
-	public void getUserInput(Scanner input) {
-		System.out.println("Write a Stock Code");
-		int name = input.nextInt();
-		this.setName(name);
-		
-	    System.out.println("how many stock did you get?");
-		int stnumber = input.nextInt();
-		this.setStnumber(stnumber);
-		
-		System.out.println("Write a Price");
-		int price = input.nextInt();
-		this.setPrice(price);
-		
-		System.out.println("Write a End date");
-		int enddate = input.nextInt();
-		this.setEnddate(enddate);
+		return skind;
 	}
 
 }

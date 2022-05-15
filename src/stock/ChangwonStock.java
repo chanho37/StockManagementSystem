@@ -2,7 +2,9 @@ package stock;
 
 import java.util.Scanner;
 
-public class ChangwonStock extends Stock {
+import exception.PriceFormatException;
+
+public class ChangwonStock extends BusanCentum {
 	
 	protected int promotionprice;
 	protected int promotionenddate;
@@ -11,71 +13,44 @@ public class ChangwonStock extends Stock {
 		super(kind);
 	}
 	
-	    public void getUserInput(Scanner input) {
-		System.out.println("Write a Stock Code");
-		int name = input.nextInt();
-		this.setName(name);
-		
-		System.out.println("how many stock did you get?");
-		int stnumber = input.nextInt();
-		this.setStnumber(stnumber);
-		
+
+	
+	public void getUserInput(Scanner input) {
+		setStockName(input);
+		setStockNumber(input);
+		setStockPricewithYN(input);
+		setStockPromotionPricewithYN(input);		
+		setStockEnddate(input);
+	}
+	
+	
+	public void setStockPromotionPricewithYN(Scanner input) {
 		char answer = 'x';
-		while(answer != 'y' && answer != 'Y' && answer != 'n' && answer != 'N') 
-		{
-			System.out.print("Is there any change in price? (Y/N)");
-			answer = input.next().charAt(0);
-			if(answer == 'y' || answer == 'Y') {
-				System.out.println("Write a Price");
-				int price = input.nextInt();
-				this.setPrice(price);
-			}
-			else if(answer == 'n' || answer == 'N') {
-				this.setPrice(0);
-			}
-			else {
-			}
-		}
-		
-		answer = 'x';
 		while(answer != 'y' && answer != 'Y' && answer != 'n' && answer != 'N') 
 		{
 			System.out.print("Is there any change in promotion price? (Y/N)");
 			answer = input.next().charAt(0);
-			if(answer == 'y' || answer == 'Y') {
-				System.out.println("Write a promotion Price");
-				int price = input.nextInt();
-				this.setPrice(price);
+			try {
+				if(answer == 'y' || answer == 'Y') {
+					setStockPrice(input);
+					break;
+				}
+				else if(answer == 'n' || answer == 'N') {
+					this.setPrice("");
+					break;
+				}
+				else {
+				}
 			}
-			else if(answer == 'n' || answer == 'N') {
-				this.setPrice(0);
-			}
-			else {
+			catch(PriceFormatException e) {
+				System.out.println("Incorrect Price Format. Please enter a unit");
 			}
 		}
-		
-		System.out.println("Write a End date");
-		int enddate = input.nextInt();
-		this.setEnddate(enddate);
-	}
-	public void printInfo() {
-		String skind = "none";
-		switch(this.kind) {
-		case Masan:
-			skind = "Masan";
-			break;
-		case Busan:
-			skind = "Busan";
-			break;
-		case Jinju:
-			skind = "Jinju";
-			break;
-		case Changwon:
-			skind = "Changwon";
-			break;
-		default:
-		}
-		System.out.println("kind: " + skind + " Name : " + name + " Stocknumber : " + stnumber + " Price : " + price + " date : " + enddate+" promotion Price : " + price + " End date : " + enddate);
 	}
 
+	    public void printInfo() {
+			String skind = getkindString();
+			System.out.println("kind: " + skind + " Name : " + name + " Stocknumber : " + stnumber + " Price : " + price + " date : " + enddate+" promotion Price : " + price + " End date : " + enddate);
+		}
+		
 }
