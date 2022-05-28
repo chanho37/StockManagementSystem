@@ -1,10 +1,16 @@
 package stock;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 import exception.PriceFormatException;
 
-public abstract class Stock implements StockInput {
+public abstract class Stock implements StockInput, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3852181471704461405L;
+	
 	protected Stockkind kind = Stockkind.Masan;
 	protected int name;
 	protected int stnumber;
@@ -112,6 +118,7 @@ public abstract class Stock implements StockInput {
 	public void setStockEnddate(Scanner input) {
 		System.out.print("End date : ");
 		int enddate = input.nextInt();
+		
 		this.setEnddate(enddate);
 	}
 	
