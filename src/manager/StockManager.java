@@ -1,3 +1,5 @@
+package manager;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +8,7 @@ import java.util.Scanner;
 import stock.BusanStock;
 import stock.ChangwonStock;
 import stock.MasanStock;
+import stock.Stock;
 import stock.StockInput;
 import stock.Stockkind;
 
@@ -14,11 +17,20 @@ public class StockManager implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5521071126590810078L;
-	
 	ArrayList<StockInput> stocks = new ArrayList<StockInput>();
 	transient Scanner input;
 	StockManager(Scanner input) {
 		this.input = input;
+	}
+	
+	public void addstock(String Name, String STNumber, String Price, String phone) {
+		StockInput stockInput = new MasanStock(Stockkind.Masan);
+		stockInput.getUserInput(input);
+		stocks.add(stockInput);
+	}
+	
+	public void addstock(StockInput stockInput) {
+		stocks.add(stockInput);
 	}
 	
 	public void addstock() {
@@ -138,7 +150,13 @@ public class StockManager implements Serializable {
 		}
 	}
 	
+	public int size() {
+		return stocks.size();
+	}
 	
+	public StockInput get(int index) {
+		return (Stock) stocks.get(index);
+	}
 	
 	public void showEditMenu() {
 		System.out.println(" $$ Stock Info Edit System $$");

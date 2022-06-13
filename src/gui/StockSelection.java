@@ -7,11 +7,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StockSelection extends JFrame {
+import listeners.ButtonAddListener;
+import listeners.ButtonViewListener;
+
+public class StockSelection extends JPanel {
+	WindowFrame frame;
 	
-	public StockSelection() {
-		this.setSize(300,300);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public StockSelection(WindowFrame frame) {	
+		this.setLayout(new BorderLayout());
+		this.frame = frame;
 		
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -23,6 +27,9 @@ public class StockSelection extends JFrame {
 		JButton button4 = new JButton("Delete Stock");
 		JButton button5 = new JButton("Exit program");
 		
+		button1.addActionListener(new ButtonAddListener(frame));
+		button2.addActionListener(new ButtonViewListener(frame));
+		
 		panel1.add(label);
 		panel2.add(button1);
 		panel2.add(button2);
@@ -33,7 +40,7 @@ public class StockSelection extends JFrame {
 		this.add(panel1, BorderLayout.NORTH);
 		this.add(panel2, BorderLayout.CENTER);
 		
-		this.setVisible(true);
+		
 		
 	}
 

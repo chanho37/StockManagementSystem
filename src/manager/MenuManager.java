@@ -1,3 +1,4 @@
+package manager;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -6,7 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import log.EventLogger;
+
+import gui.WindowFrame;
 
 public class MenuManager {
 	static EventLogger logger = new EventLogger("log.txt");
@@ -18,6 +20,8 @@ public class MenuManager {
 		if(stockmanager == null) {
 				stockmanager = new StockManager(input);
 		}
+		
+		WindowFrame frame = new WindowFrame(stockmanager);
 		selectMenu(input,stockmanager);
 		putObject(stockmanager, "stockmanager.ser");
 	}

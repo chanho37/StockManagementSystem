@@ -11,11 +11,17 @@ public interface StockInput {
 	
 	public void setName(int name);
 	
+	public int getStnumber();
+	
 	public void setStnumber(int stnumber);
+	
+	public String getPrice();
 	
 	public void setPrice(String price) throws PriceFormatException;;
 	
 	public void setEnddate(int enddate);
+	
+	public int getEnddate();
 	
 	public void printInfo();
 	
